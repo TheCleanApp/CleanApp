@@ -4,71 +4,85 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
 
-public class StartCleanUpActivity extends AppCompatActivity
+public class EndCleanUpActivity extends AppCompatActivity
 {
 
-    private static final String TAG = "StartCleanUpActivity";
+    // Timer
+    private Chronometer timer;
+    private boolean running;
+    private long pauseOffset;
 
-    //Declare variables
-        // Buttons
-    private Button choosePicture, uploadPicture;
+    // Buttons
+    Button chooseAfterPictureButton, uploadAfterPictureButton;
 
-        // ImageViews
-    private ImageView pictureImageView;
+    // Textviews
+    TextView endCleanUpInfoTextView, cleaningTimerTextView;
 
-        // ProgressDialog
+    // Imageviews
+    ImageView afterPictureImageView;
+
+    // ProgressDialog
     private ProgressDialog mProgressDialog;
 
-        // Storage
+    // Storage
     private StorageReference mStorageRef;
 
-        // Firebase
+    // Firebase
     private FirebaseAuth auth;
 
     private final int PICK_IMAGE_REQUEST = 71;
     private Uri filePath;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_startcleanup);
+        setContentView(R.layout.activity_endcleanup);
 
-        // ImageViews
-        pictureImageView = findViewById(R.id.pictureImageView);
+        // Timer
+        timer = findViewById(R.id.timer);
 
         // Buttons
-        choosePicture = findViewById(R.id.choosePictureButton);
-        uploadPicture = findViewById(R.id.uploadPictureButton);
+        chooseAfterPictureButton = findViewById(R.id.chooseAfterCleaningPictureButton);
+        uploadAfterPictureButton = findViewById(R.id.uploadAfterPictureButton);
+
+        // TextViews
+        endCleanUpInfoTextView = findViewById(R.id.endCleanUpInfoTextView);
+        cleaningTimerTextView = findViewById(R.id.cleaningTimerTextView);
+
+        //ImageViews
+        afterPictureImageView = findViewById(R.id.afterPictureImageView);
 
         // ProgressDialog
-        mProgressDialog = new ProgressDialog(StartCleanUpActivity.this);
+        mProgressDialog = new ProgressDialog(EndCleanUpActivity.this);
 
         // Firebase
         auth = FirebaseAuth.getInstance();
@@ -76,21 +90,21 @@ public class StartCleanUpActivity extends AppCompatActivity
         // Storage
         mStorageRef = FirebaseStorage.getInstance().getReference();
 
-        //checkFilePermissions();
+        startTimer();
 
-        choosePicture.setOnClickListener(new View.OnClickListener()
+        chooseAfterPictureButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
-            public void onClick(View view)
+            public void onClick(View v)
             {
                 chooseImage();
+
             }
         });
 
-        uploadPicture.setOnClickListener(new View.OnClickListener()
-        {
+        uploadAfterPictureButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
+            public void onClick(View v)
             {
                 mProgressDialog.setMessage("Uploading picture...");
                 mProgressDialog.show();
@@ -101,7 +115,8 @@ public class StartCleanUpActivity extends AppCompatActivity
                 String currentDateString = DateFormat.getDateInstance().format(new Date());
                 String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
 
-                StorageReference storageReference = mStorageRef.child("Images/users/" +  userId + "/" + currentDateString + "/" + "Start Picture/" + currentDateTimeString + ".jpg");
+                StorageReference storageReference = mStorageRef.child("Images/users/" +  userId + "/" + currentDateString + "/" + "After Picture/" + currentDateTimeString + ".jpg");
+
 
                 storageReference.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>()
                 {
@@ -110,7 +125,7 @@ public class StartCleanUpActivity extends AppCompatActivity
                     {
                         mProgressDialog.dismiss();
                         toastMessage("Uploaded");
-                        Intent intent = new Intent(StartCleanUpActivity.this, EndCleanUpActivity.class);
+                        Intent intent = new Intent(EndCleanUpActivity.this, MenuActivity.class);
                         startActivity(intent);
                     }
                 }).addOnFailureListener(new OnFailureListener()
@@ -134,6 +149,9 @@ public class StartCleanUpActivity extends AppCompatActivity
                 });
             }
         });
+
+
+
     }
 
     private void chooseImage()
@@ -142,31 +160,14 @@ public class StartCleanUpActivity extends AppCompatActivity
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+        timer.setVisibility(View.INVISIBLE);
+        cleaningTimerTextView.setVisibility(View.INVISIBLE);
+        endCleanUpInfoTextView.setVisibility(View.INVISIBLE);
+        uploadAfterPictureButton.setVisibility(View.VISIBLE);
+        afterPictureImageView.setVisibility(View.VISIBLE);
+
     }
 
-    /*
-    private void checkFilePermissions() {
-        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP){
-            int permissionCheck = StartCleanUpActivity.this.checkSelfPermission("Manifest.permission.READ_EXTERNAL_STORAGE");
-            permissionCheck += StartCleanUpActivity.this.checkSelfPermission("Manifest.permission.WRITE_EXTERNAL_STORAGE");
-            if (permissionCheck != 0) {
-                this.requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE,android.Manifest.permission.READ_EXTERNAL_STORAGE}, 1001); //Any number
-            }
-        }else{
-            Log.d(TAG, "checkBTPermissions: No need to check permissions. SDK version < LOLLIPOP.");
-        }
-    }
-    */
-
-    /*
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        super.onActivityResult(requestCode, resultCode, data);
-        Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-        pictureImageView.setImageBitmap(bitmap);
-    }
-    */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
@@ -177,13 +178,38 @@ public class StartCleanUpActivity extends AppCompatActivity
             filePath = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                pictureImageView.setImageBitmap(bitmap);
+                afterPictureImageView.setImageBitmap(bitmap);
             }
             catch (IOException e)
             {
                 e.printStackTrace();
             }
         }
+    }
+    public void startTimer()
+    {
+        if (!running)
+        {
+            timer.setBase(SystemClock.elapsedRealtime() - pauseOffset);
+            timer.start();
+            running = true;
+        }
+    }
+
+    public void pauseTimer()
+    {
+        if (running)
+        {
+            timer.stop();
+            pauseOffset = SystemClock.elapsedRealtime() - timer.getBase();
+            running = false;
+        }
+    }
+
+    public void resetTimer()
+    {
+        timer.setBase(SystemClock.elapsedRealtime());
+        pauseOffset = 0;
     }
 
     private void toastMessage(String message)

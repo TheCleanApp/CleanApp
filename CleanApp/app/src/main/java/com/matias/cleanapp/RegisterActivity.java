@@ -1,13 +1,10 @@
 package com.matias.cleanapp;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,16 +13,15 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-import com.matias.cleanapp.Models.UserModel;
+
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity
 {
@@ -45,8 +41,7 @@ public class RegisterActivity extends AppCompatActivity
 
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
-    private DatabaseReference databaseUsers;
+    private DatabaseReference myRef;
 
     // Progressdialog
     private ProgressDialog PD;
@@ -56,7 +51,6 @@ public class RegisterActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        Log.d(TAG,"RegisterActivity");
 
         PD = new ProgressDialog(this);
         PD.setMessage("Loading...");
@@ -64,7 +58,7 @@ public class RegisterActivity extends AppCompatActivity
         PD.setCanceledOnTouchOutside(false);
 
         // Firebase
-        databaseUsers = FirebaseDatabase.getInstance().getReference("Users");
+        myRef = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
 
@@ -88,9 +82,7 @@ public class RegisterActivity extends AppCompatActivity
 
             }
         });
-
     }
-
     private void register()
     {
         final String email = registerEmailEditText.getText().toString().trim();
@@ -115,56 +107,21 @@ public class RegisterActivity extends AppCompatActivity
                         Intent intent = new Intent(RegisterActivity.this,LoginActivity.class);
 
                         startActivity(intent);
+
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        String userID = user.getUid();
+
+                        Map<String,Object> taskMap = new HashMap<>();
+                        taskMap.put("email", email);
+                        taskMap.put("isAdmin", false);
+                        taskMap.put("firstName", "");
+                        taskMap.put("lastName", "");
+                        myRef.child("users/").child(userID).updateChildren(taskMap);
                         finish();
                     }
                     PD.dismiss();
                 }
             });
-
-            /*
-            // Tjekker om der er en email som matcher i databasen
-            Query emailQuery = FirebaseDatabase.getInstance().getReference().child("Users").orderByChild("email").equalTo(email);
-            emailQuery.addListenerForSingleValueEvent(new ValueEventListener()
-            {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot)
-                {
-                    if (dataSnapshot.getChildrenCount()>0)
-                    {
-                        Toast.makeText(RegisterActivity.this,"Email already taken", Toast.LENGTH_SHORT).show();
-                    }
-                    else
-                    {
-                        String id = databaseUsers.push().getKey();
-
-                        UserModel userModel = new UserModel(id, firstName, lastName, email, password);
-
-                        databaseUsers.child(id).setValue(userModel);
-
-                        Toast.makeText(RegisterActivity.this,"User added", Toast.LENGTH_SHORT).show();
-
-                        /*
-                        Intent intent = new Intent(RegisterActivity.this,LoginActivity.class);
-                        Bundle extras = new Bundle();
-
-                        extras.putString("email",email);
-                        extras.putString("password",password);
-                        intent.putExtras(extras);
-                        startActivity(intent);
-
-                    }
-
-
-                }
-
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError)
-                {
-                    Log.w(TAG, "Failed to read value.", databaseError.toException());
-                }
-            });
-            */
         }
         else
         {

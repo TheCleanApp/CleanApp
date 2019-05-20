@@ -1,7 +1,6 @@
 package com.matias.cleanapp;
 
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -13,8 +12,11 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MenuActivity extends AppCompatActivity
 {
@@ -22,7 +24,7 @@ public class MenuActivity extends AppCompatActivity
     private static final String TAG = "MenuActivity";
 
     // Buttons
-    Button signoutButton, startCleanUpButton, profileButton, newsButton, aboutButton;
+    Button signoutButton, startCleanUpButton, profileButton, newsButton, aboutButton, adminButton;
 
     // Textviews
     TextView welcomeTextView;
@@ -34,17 +36,28 @@ public class MenuActivity extends AppCompatActivity
     // Firebase auth
     private FirebaseAuth mAuth;
 
+    // Strings
+    private String userId;
+
+    // Booleans
+    private Boolean isAdmin;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+
         // Firebase Realtime database
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference();
 
         // Firebase auth
         mAuth = FirebaseAuth.getInstance();
+         // Current User + ID
+        FirebaseUser user = mAuth.getCurrentUser();
+        userId = user.getUid();
+
 
         // TextViews
         welcomeTextView = findViewById(R.id.welcomeTextView);
@@ -55,7 +68,38 @@ public class MenuActivity extends AppCompatActivity
         profileButton = findViewById(R.id.profileButton);
         newsButton = findViewById(R.id.newsButton);
         aboutButton = findViewById(R.id.aboutButton);
+        adminButton = findViewById(R.id.adminButton);
 
+        // Checking if the user is Admin or not.
+        checkIfUserIsAdmin();
+
+    }
+
+    private void checkIfUserIsAdmin()
+    {
+        myRef.addValueEventListener(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+            {
+                boolean isAdmin = (boolean) dataSnapshot.child("users").child(userId).child("isAdmin").getValue();
+                Log.d(TAG, "IsAdmin?: " + isAdmin);
+                if (isAdmin)
+                {
+                    adminButton.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    adminButton.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError)
+            {
+
+            }
+        });
     }
 
     public void buttonChoice(View view)
@@ -88,26 +132,37 @@ public class MenuActivity extends AppCompatActivity
                 news();
                 break;
             }
+            case R.id.adminButton:
+            {
+                admin();
+                break;
+            }
         }
+    }
+
+    private void admin()
+    {
+        Log.d(TAG, "Admin Button");
     }
 
     private void news()
     {
-
+        Log.d(TAG, "News Button");
     }
 
     private void profile()
     {
-
+        Log.d(TAG, "Profile Button");
     }
 
     private void about()
     {
-
+        Log.d(TAG, "About Button");
     }
 
     private void startCleanUp()
     {
+        Log.d(TAG, "startCleanUp Button");
         Intent intent = new Intent(this,StartCleanUpActivity.class);
         startActivity(intent);
         toastMessage("Start CleanUp");
@@ -115,6 +170,7 @@ public class MenuActivity extends AppCompatActivity
 
     private void logOut()
     {
+        Log.d(TAG, "Log Out Button");
         mAuth.signOut();
         Intent intent = new Intent(this,LoginActivity.class);
         startActivity(intent);

@@ -12,8 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -36,23 +34,6 @@ public class LoginActivity extends AppCompatActivity
     private FirebaseAuth.AuthStateListener mAuthListener;
 
     private String id;
-
-    @Override
-    protected void onStart()
-    {
-        super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
-    }
-
-    @Override
-    protected void onStop()
-    {
-        super.onStop();
-        if (mAuthListener != null)
-        {
-            mAuth.removeAuthStateListener(mAuthListener);
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -88,7 +69,7 @@ public class LoginActivity extends AppCompatActivity
                     // User is signed in
                     Log.d(TAG, "onAuthStateChange:signed in:" + user.getUid());
                     toastMessage("Welcome " + user.getEmail() + ". Have a clean day");
-                    skipLogin();
+                    Login();
                 }
                 else
                 {
@@ -135,7 +116,7 @@ public class LoginActivity extends AppCompatActivity
 
     }
 
-    private void skipLogin()
+    private void Login()
     {
         Intent intent = new Intent(this,MenuActivity.class);
         startActivity(intent);
@@ -148,10 +129,25 @@ public class LoginActivity extends AppCompatActivity
         startActivity(intent);
     }
 
-    private void login()
-    {
 
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
     }
+
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        if (mAuthListener != null)
+        {
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
+    }
+
+
 
     private void toastMessage(String message)
 {
