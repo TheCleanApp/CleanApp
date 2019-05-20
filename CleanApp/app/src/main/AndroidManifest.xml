@@ -43,6 +43,21 @@
                 android:value=".MenuActivity">
             </meta-data>
         </activity>
+        <activity android:name=".ProfileActivity"
+            android:parentActivityName=".MenuActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MenuActivity">
+            </meta-data>
+        </activity>
+        <activity android:name=".UpdateProfileActivity"
+            android:parentActivityName=".ProfileActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ProfileActivity">
+            </meta-data>
+        </activity>
+
         <activity android:name=".EndCleanUpActivity">
         </activity>
     </application>

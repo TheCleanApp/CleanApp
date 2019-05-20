@@ -144,29 +144,6 @@ public class StartCleanUpActivity extends AppCompatActivity
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
 
-    /*
-    private void checkFilePermissions() {
-        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP){
-            int permissionCheck = StartCleanUpActivity.this.checkSelfPermission("Manifest.permission.READ_EXTERNAL_STORAGE");
-            permissionCheck += StartCleanUpActivity.this.checkSelfPermission("Manifest.permission.WRITE_EXTERNAL_STORAGE");
-            if (permissionCheck != 0) {
-                this.requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE,android.Manifest.permission.READ_EXTERNAL_STORAGE}, 1001); //Any number
-            }
-        }else{
-            Log.d(TAG, "checkBTPermissions: No need to check permissions. SDK version < LOLLIPOP.");
-        }
-    }
-    */
-
-    /*
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        super.onActivityResult(requestCode, resultCode, data);
-        Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-        pictureImageView.setImageBitmap(bitmap);
-    }
-    */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {

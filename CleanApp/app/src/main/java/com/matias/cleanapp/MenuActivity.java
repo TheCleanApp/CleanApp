@@ -153,6 +153,10 @@ public class MenuActivity extends AppCompatActivity
     private void profile()
     {
         Log.d(TAG, "Profile Button");
+        Intent intent = new Intent(this,ProfileActivity.class);
+        startActivity(intent);
+        toastMessage("Your Profile");
+
     }
 
     private void about()
