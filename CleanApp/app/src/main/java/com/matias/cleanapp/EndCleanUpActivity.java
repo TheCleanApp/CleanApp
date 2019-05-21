@@ -20,8 +20,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -33,6 +31,8 @@ import java.util.Date;
 
 public class EndCleanUpActivity extends AppCompatActivity
 {
+
+    private static final String TAG = "EndCleanUpActivity";
 
     // Timer
     private Chronometer timer;
@@ -98,7 +98,8 @@ public class EndCleanUpActivity extends AppCompatActivity
             public void onClick(View v)
             {
                 chooseImage();
-
+                stopTimer();
+                resetTimer();
             }
         });
 
@@ -106,52 +107,56 @@ public class EndCleanUpActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                mProgressDialog.setMessage("Uploading picture...");
-                mProgressDialog.show();
-
-                // get the current user
-                FirebaseUser user = auth.getCurrentUser();
-                String userId = user.getUid();
-                String currentDateString = DateFormat.getDateInstance().format(new Date());
-                String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
-
-                StorageReference storageReference = mStorageRef.child("Images/users/" +  userId + "/" + currentDateString + "/" + "After Picture/" + currentDateTimeString + ".jpg");
-
-
-                storageReference.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>()
-                {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot)
-                    {
-                        mProgressDialog.dismiss();
-                        toastMessage("Uploaded");
-                        Intent intent = new Intent(EndCleanUpActivity.this, MenuActivity.class);
-                        startActivity(intent);
-                    }
-                }).addOnFailureListener(new OnFailureListener()
-                {
-                    @Override
-                    public void onFailure(@NonNull Exception e)
-                    {
-                        mProgressDialog.dismiss();
-                        toastMessage("Something went wrong with the Upload.");
-                        toastMessage("Please try again or contact 'Matias_gramkow@hotmail.com'");
-                    }
-                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>()
-                {
-                    @Override
-                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot)
-                    {
-                        double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
-                                .getTotalByteCount());
-                        mProgressDialog.setMessage("Uploaded " + (int) progress+"%");
-                    }
-                });
+                uploadAfterImage();
             }
         });
+    }
 
+    private void uploadAfterImage()
+    {
+        uploadAfterPictureButton.setEnabled(false);
+        mProgressDialog.setMessage("Uploading picture...");
+        mProgressDialog.show();
 
+        // get the current user
+        FirebaseUser user = auth.getCurrentUser();
+        String userId = user.getUid();
+        String currentDateString = DateFormat.getDateInstance().format(new Date());
+        String currentTimeString = DateFormat.getTimeInstance().format(new Date());
 
+        StorageReference storageReference = mStorageRef.child("Images/users/" +  userId + "/" + currentDateString + "/" + "After Picture_" + currentTimeString + ".jpg");
+
+        storageReference.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>()
+        {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot)
+            {
+                mProgressDialog.dismiss();
+                toastMessage("Uploaded");
+                Intent intent = new Intent(EndCleanUpActivity.this, MenuActivity.class);
+                startActivity(intent);
+                uploadAfterPictureButton.setEnabled(true);
+            }
+        }).addOnFailureListener(new OnFailureListener()
+        {
+            @Override
+            public void onFailure(@NonNull Exception e)
+            {
+                mProgressDialog.dismiss();
+                toastMessage("Something went wrong with the Upload.");
+                toastMessage("Please try again or contact 'Matias_gramkow@hotmail.com'");
+                uploadAfterPictureButton.setEnabled(true);
+            }
+        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>()
+        {
+            @Override
+            public void onProgress(UploadTask.TaskSnapshot taskSnapshot)
+            {
+                double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
+                        .getTotalByteCount());
+                mProgressDialog.setMessage("Uploaded " + (int) progress+"%");
+            }
+        });
     }
 
     private void chooseImage()
@@ -165,7 +170,6 @@ public class EndCleanUpActivity extends AppCompatActivity
         endCleanUpInfoTextView.setVisibility(View.INVISIBLE);
         uploadAfterPictureButton.setVisibility(View.VISIBLE);
         afterPictureImageView.setVisibility(View.VISIBLE);
-
     }
 
     @Override
@@ -196,7 +200,7 @@ public class EndCleanUpActivity extends AppCompatActivity
         }
     }
 
-    public void pauseTimer()
+    public void stopTimer()
     {
         if (running)
         {

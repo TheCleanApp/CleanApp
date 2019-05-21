@@ -2,10 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.matias.cleanapp">
 
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.STORAGE" />
+    <uses-feature
+        android:name="android.hardware.camera.any"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -14,9 +20,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:screenOrientation="portrait"
         >
-        <activity android:name=".LoginActivity">
+        <activity
+            android:name=".LoginActivity"
+            android:label="Login"
+            android:screenOrientation="portrait"
+
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -24,7 +34,11 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".RegisterActivity"
+        <activity
+            android:name=".RegisterActivity"
+            android:label="Register"
+            android:screenOrientation="portrait"
+
                   android:parentActivityName=".LoginActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -33,24 +47,37 @@
             </meta-data>
         </activity>
 
-        <activity android:name=".MenuActivity">
+        <activity
+            android:name=".MenuActivity"
+            android:label="Menu"
+            android:screenOrientation="portrait"
+            >
+
         </activity>
 
         <activity android:name="StartCleanUpActivity"
+            android:label="Start Clean Up"
+            android:screenOrientation="portrait"
                   android:parentActivityName=".MenuActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MenuActivity">
             </meta-data>
         </activity>
+
         <activity android:name=".ProfileActivity"
+            android:screenOrientation="portrait"
+            android:label="Profile"
             android:parentActivityName=".MenuActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MenuActivity">
             </meta-data>
         </activity>
+
         <activity android:name=".UpdateProfileActivity"
+            android:screenOrientation="portrait"
+            android:label="Update Profile"
             android:parentActivityName=".ProfileActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -58,8 +85,23 @@
             </meta-data>
         </activity>
 
-        <activity android:name=".EndCleanUpActivity">
+        <activity android:name=".EndCleanUpActivity"
+            android:screenOrientation="portrait"
+
+            android:label="End Clean Up"
+            >
         </activity>
+
+        <activity android:name=".AdminActivity"
+            android:screenOrientation="portrait"
+            android:label="Administrator"
+            android:parentActivityName=".MenuActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MenuActivity">
+            </meta-data>
+        </activity>
+
     </application>
 
 </manifest>

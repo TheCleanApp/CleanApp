@@ -39,8 +39,6 @@ public class MenuActivity extends AppCompatActivity
     // Strings
     private String userId;
 
-    // Booleans
-    private Boolean isAdmin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -143,6 +141,9 @@ public class MenuActivity extends AppCompatActivity
     private void admin()
     {
         Log.d(TAG, "Admin Button");
+        Intent intent = new Intent(this,AdminActivity.class);
+        startActivity(intent);
+        toastMessage("Admin settings");
     }
 
     private void news()

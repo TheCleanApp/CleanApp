@@ -9,32 +9,37 @@
         android:id="@+id/pictureImageView"
         android:layout_width="match_parent"
         android:layout_height="414dp"
-        app:layout_constraintBottom_toTopOf="@+id/choosePictureButton"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/chooseImageFromPhoneButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
     <Button
-        android:id="@+id/choosePictureButton"
+        android:id="@+id/chooseImageFromPhoneButton"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginBottom="17dp"
+        android:background="@drawable/cleanbuttons"
+        android:onClick="buttonChoice"
         android:text="Choose Picture"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/uploadPictureButton"
+        android:id="@+id/uploadStartImageButton"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="17dp"
+        android:background="@drawable/cleanbuttons"
+        android:onClick="buttonChoice"
         android:text="Upload Picture"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

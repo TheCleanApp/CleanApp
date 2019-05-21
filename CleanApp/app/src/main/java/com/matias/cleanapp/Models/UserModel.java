@@ -3,13 +3,14 @@ package com.matias.cleanapp.Models;
 public class UserModel
 {
     private String id,firstName,lastName,email,password;
+    private int cleaningPoints;
     private boolean isAdmin;
 
     public UserModel()
     {
     }
 
-    public UserModel(String id, String firstName, String lastName, String email, String password, boolean isAdmin)
+    public UserModel(String id, String firstName, String lastName, String email, String password, boolean isAdmin, int cleaningPoints)
     {
         this.id = id;
         this.firstName = firstName;
@@ -17,6 +18,8 @@ public class UserModel
         this.email = email;
         this.password = password;
         this.isAdmin = isAdmin;
+        this.cleaningPoints = cleaningPoints;
+
     }
 
     public String getId()
