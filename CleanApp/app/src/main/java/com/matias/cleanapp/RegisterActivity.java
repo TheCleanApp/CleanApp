@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -110,6 +111,8 @@ public class RegisterActivity extends AppCompatActivity
 
                         FirebaseUser user = mAuth.getCurrentUser();
                         String userID = user.getUid();
+
+                        // TODO: 21-05-2019 AUTO INCREMENT ET CUSTOM ID: https://www.youtube.com/watch?v=r-g2R_COMqo
 
                         Map<String,Object> taskMap = new HashMap<>();
                         taskMap.put("email", email);
