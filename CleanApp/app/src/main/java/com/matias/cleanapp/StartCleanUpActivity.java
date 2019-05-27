@@ -18,14 +18,19 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class StartCleanUpActivity extends AppCompatActivity
 {
@@ -44,9 +49,12 @@ public class StartCleanUpActivity extends AppCompatActivity
 
         // Storage
     private StorageReference mStorageRef;
+    private DatabaseReference mDatabseRef;
 
         // Firebase
     private FirebaseAuth auth;
+
+    private StorageTask uploadingRunning;
 
     // Image Handling
     private final int PICK_IMAGE_REQUEST = 71;
@@ -72,6 +80,7 @@ public class StartCleanUpActivity extends AppCompatActivity
 
         // Storage
         mStorageRef = FirebaseStorage.getInstance().getReference();
+        mDatabseRef = FirebaseDatabase.getInstance().getReference();
 
         // Getting starting Image
         int imageResource = getResources().getIdentifier("@drawable/cleanpicture", null, this.getPackageName());
@@ -91,9 +100,18 @@ public class StartCleanUpActivity extends AppCompatActivity
             }
             case R.id.uploadStartImageButton:
             {
-                Log.d(TAG, "buttonChoice: Upload Starting Picture Button Clicked");
-                uploadStartImage();
-                break;
+                // Does so the user only can click on upload once.
+                if (uploadingRunning != null && uploadingRunning.isInProgress())
+                {
+                    toastMessage("ImageModel In Progress, please wait");
+                    break;
+                }
+                else
+                {
+                    Log.d(TAG, "buttonChoice: ImageModel Starting Picture Button Clicked");
+                    uploadStartImage();
+                    break;
+                }
             }
         }
     }
@@ -105,21 +123,35 @@ public class StartCleanUpActivity extends AppCompatActivity
         mProgressDialog.show();
 
         // get the current user
-        FirebaseUser user = auth.getCurrentUser();
-        String userId = user.getUid();
+        final FirebaseUser user = auth.getCurrentUser();
+        final String userId = user.getUid();
         String currentDateString = DateFormat.getDateInstance().format(new Date());
         String currentTimeString = DateFormat.getTimeInstance().format(new Date());
 
-        StorageReference storageReference = mStorageRef.child("Images/users/" +  userId + "/" + currentDateString + "/" + "Start Picture_" + currentTimeString + ".jpg");
+        final StorageReference storageReference = mStorageRef.child("Images/users/" +  userId + "/" + currentTimeString + " Start_Picture " + currentDateString + ".jpg");
 
-        storageReference.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>()
+        uploadingRunning = storageReference.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>()
         {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot)
             {
+                storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>()
+                {
+                    @Override
+                    public void onSuccess(Uri uri)
+                    {
+                        Map<String,Object> taskMap = new HashMap<>();
+                        String url = uri.toString();
+                        String uploadId = mDatabseRef.push().getKey();
+                        taskMap.put("name", user.getEmail());
+                        taskMap.put("imageUrl", url);
+                        mDatabseRef.child("CleaningPicture").child(uploadId).updateChildren(taskMap);
+                    }
+                });
+                Log.d(TAG, "onSuccessasdasdasd: " + taskSnapshot.getUploadSessionUri());
                 mProgressDialog.dismiss();
                 toastMessage("Uploaded");
-                Intent intent = new Intent(StartCleanUpActivity.this, EndCleanUpActivity.class);
+                Intent intent = new Intent(StartCleanUpActivity.this, MenuActivity.class);
                 startActivity(intent);
                 uploadStartImageButton.setEnabled(true);
             }
@@ -129,7 +161,7 @@ public class StartCleanUpActivity extends AppCompatActivity
             public void onFailure(@NonNull Exception e)
             {
                 mProgressDialog.dismiss();
-                toastMessage("Something went wrong with the Upload.");
+                toastMessage("Something went wrong with the ImageModel.");
                 toastMessage("Please try again or contact 'Matias_gramkow@hotmail.com'");
                 uploadStartImageButton.setEnabled(true);
             }

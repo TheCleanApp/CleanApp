@@ -279,7 +279,7 @@ public class ProfileActivity extends AppCompatActivity
             @Override
             public void onProgress(UploadTask.TaskSnapshot taskSnapshot) 
             {
-                Log.d(TAG, "onProgress: Progress on the Upload");
+                Log.d(TAG, "onProgress: Progress on the ImageModel");
                 double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
                         .getTotalByteCount());
                 mProgressDialog.setMessage("Updating Profile Picture " + (int) progress+"%");

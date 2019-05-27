@@ -54,8 +54,8 @@ public class MenuActivity extends AppCompatActivity
         mAuth = FirebaseAuth.getInstance();
          // Current User + ID
         FirebaseUser user = mAuth.getCurrentUser();
-        userId = user.getUid();
 
+        userId = user.getUid();
 
         // TextViews
         welcomeTextView = findViewById(R.id.welcomeTextView);
@@ -80,15 +80,24 @@ public class MenuActivity extends AppCompatActivity
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot)
             {
-                boolean isAdmin = (boolean) dataSnapshot.child("users").child(userId).child("isAdmin").getValue();
-                Log.d(TAG, "IsAdmin?: " + isAdmin);
-                if (isAdmin)
+                try
                 {
-                    adminButton.setVisibility(View.VISIBLE);
+                    boolean isAdmin = (boolean) dataSnapshot.child("users").child(userId).child("isAdmin").getValue();
+
+                    Log.d(TAG, "IsAdmin?: " + isAdmin);
+                    if (isAdmin)
+                    {
+                        adminButton.setVisibility(View.VISIBLE);
+                    }
+                    else
+                    {
+                        adminButton.setVisibility(View.INVISIBLE);
+                    }
                 }
-                else
+                catch (NullPointerException nullpointer)
                 {
-                    adminButton.setVisibility(View.INVISIBLE);
+                    Log.d(TAG, "onDataChange: " + nullpointer);
+                    logOut();
                 }
             }
 
@@ -132,16 +141,23 @@ public class MenuActivity extends AppCompatActivity
             }
             case R.id.adminButton:
             {
-                admin();
+                //admin();
+                openImageActivity();
                 break;
             }
         }
     }
 
+    private void openImageActivity()
+    {
+        Intent intent = new Intent(this, AdminActivity.class);
+        startActivity(intent);
+    }
+
     private void admin()
     {
         Log.d(TAG, "Admin Button");
-        Intent intent = new Intent(this,AdminActivity.class);
+        Intent intent = new Intent(this, TEST.class);
         startActivity(intent);
         toastMessage("Admin settings");
     }

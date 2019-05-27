@@ -119,7 +119,7 @@ public class RegisterActivity extends AppCompatActivity
                         taskMap.put("isAdmin", false);
                         taskMap.put("firstName", "");
                         taskMap.put("lastName", "");
-                        taskMap.put("cleaningPoints", "");
+                        taskMap.put("cleaningPoints", 0);
                         myRef.child("users/").child(userID).updateChildren(taskMap);
                         finish();
                     }

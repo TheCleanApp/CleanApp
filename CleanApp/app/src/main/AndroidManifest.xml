@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.matias.cleanapp">
+    package="com.matias.cleanapp">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.STORAGE" />
+
     <uses-feature
         android:name="android.hardware.camera.any"
         android:required="true" />
@@ -19,89 +20,66 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        >
+        android:theme="@style/AppTheme">
         <activity
             android:name=".LoginActivity"
             android:label="Login"
-            android:screenOrientation="portrait"
-
-            >
+            android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".RegisterActivity"
             android:label="Register"
-            android:screenOrientation="portrait"
-
-                  android:parentActivityName=".LoginActivity">
+            android:parentActivityName=".LoginActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".LoginActivity">
-
-            </meta-data>
+                android:value=".LoginActivity"></meta-data>
         </activity>
-
         <activity
             android:name=".MenuActivity"
             android:label="Menu"
-            android:screenOrientation="portrait"
-            >
-
-        </activity>
-
-        <activity android:name="StartCleanUpActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".StartCleanUpActivity"
             android:label="Start Clean Up"
-            android:screenOrientation="portrait"
-                  android:parentActivityName=".MenuActivity">
+            android:parentActivityName=".MenuActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MenuActivity">
-            </meta-data>
+                android:value=".MenuActivity"></meta-data>
         </activity>
-
-        <activity android:name=".ProfileActivity"
-            android:screenOrientation="portrait"
+        <activity
+            android:name=".ProfileActivity"
             android:label="Profile"
-            android:parentActivityName=".MenuActivity">
+            android:parentActivityName=".MenuActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MenuActivity">
-            </meta-data>
+                android:value=".MenuActivity"></meta-data>
         </activity>
-
-        <activity android:name=".UpdateProfileActivity"
-            android:screenOrientation="portrait"
+        <activity
+            android:name=".UpdateProfileActivity"
             android:label="Update Profile"
-            android:parentActivityName=".ProfileActivity">
+            android:parentActivityName=".ProfileActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ProfileActivity">
-            </meta-data>
+                android:value=".ProfileActivity"></meta-data>
         </activity>
-
-        <activity android:name=".EndCleanUpActivity"
-            android:screenOrientation="portrait"
-
-            android:label="End Clean Up"
-            >
-        </activity>
-
-        <activity android:name=".AdminActivity"
-            android:screenOrientation="portrait"
+        <activity
+            android:name=".AdminActivity"
             android:label="Administrator"
-            android:parentActivityName=".MenuActivity">
+            android:parentActivityName=".MenuActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MenuActivity">
-            </meta-data>
+                android:value=".MenuActivity"></meta-data>
         </activity>
-
     </application>
 
 </manifest>
