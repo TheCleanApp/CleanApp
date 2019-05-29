@@ -86,8 +86,8 @@ public class RegisterActivity extends AppCompatActivity
     }
     private void register()
     {
-        final String email = registerEmailEditText.getText().toString().trim();
-        final String password = registerPasswordEditText.getText().toString().trim();
+        final String email = registerEmailEditText.getText().toString().trim().toLowerCase();
+        final String password = registerPasswordEditText.getText().toString().trim().toLowerCase();
 
         // Checking if all the fields are filled
         boolean validatedFields = validate(new EditText[] {registerEmailEditText,registerPasswordEditText});

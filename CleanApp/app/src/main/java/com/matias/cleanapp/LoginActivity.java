@@ -86,8 +86,8 @@ public class LoginActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                String email = loginEmail.getText().toString();
-                String password = loginPassword.getText().toString();
+                String email = loginEmail.getText().toString().toLowerCase();
+                String password = loginPassword.getText().toString().toLowerCase();
                 if(!email.equals("") && !password.equals(""))
                 {
                     mAuth.signInWithEmailAndPassword(email,password).addOnFailureListener(LoginActivity.this, new OnFailureListener()
