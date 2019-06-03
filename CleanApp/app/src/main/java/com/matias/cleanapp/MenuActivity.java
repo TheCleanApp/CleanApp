@@ -24,7 +24,7 @@ public class MenuActivity extends AppCompatActivity
     private static final String TAG = "MenuActivity";
     private static final String STATE_COUNTER = "counter";
 
-    Button signoutButton, startCleanUpButton, profileButton, newsButton, aboutButton, adminButton, counterButton;
+    Button signoutButton, startCleanUpButton, profileButton, aboutButton, adminButton, counterButton;
 
     TextView welcomeTextView, counterTextView;
 
@@ -60,7 +60,6 @@ public class MenuActivity extends AppCompatActivity
         signoutButton = findViewById(R.id.logoutButton);
         startCleanUpButton = findViewById(R.id.startCleanUpButton);
         profileButton = findViewById(R.id.profileButton);
-        newsButton = findViewById(R.id.newsButton);
         aboutButton = findViewById(R.id.aboutButton);
         adminButton = findViewById(R.id.adminButton);
         counterButton = findViewById(R.id.counterButton);
@@ -145,11 +144,7 @@ public class MenuActivity extends AppCompatActivity
 
                 break;
             }
-            case R.id.newsButton:
-            {
-                news();
-                break;
-            }
+
             case R.id.adminButton:
             {
                 admin();
