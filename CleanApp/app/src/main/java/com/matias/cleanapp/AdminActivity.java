@@ -27,8 +27,6 @@ public class AdminActivity extends AppCompatActivity
     private RecyclerView mRecyclerView;
     private AdminImageAdapter mAdapter;
 
-    private ProgressBar mProgressCircle;
-
     private DatabaseReference mDatabaseRef;
     private List<ImageModel> mImageModels;
 
@@ -41,12 +39,16 @@ public class AdminActivity extends AppCompatActivity
         mRecyclerView = findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        //mProgressCircle = findViewById(R.id.progress_circle);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
 
         mImageModels = new ArrayList<>();
 
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("CleaningPicture");
+        mRecyclerView.removeAllViews();
+
 
         mDatabaseRef.addValueEventListener(new ValueEventListener()
         {

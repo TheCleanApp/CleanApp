@@ -124,11 +124,11 @@ public class StartCleanUpActivity extends AppCompatActivity
 
         // get the current user
         final FirebaseUser user = auth.getCurrentUser();
-        final String userId = user.getUid();
-        String currentDateString = DateFormat.getDateInstance().format(new Date());
-        String currentTimeString = DateFormat.getTimeInstance().format(new Date());
+        final String uploadId = mDatabseRef.push().getKey();
+        String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
 
-        final StorageReference storageReference = mStorageRef.child("Images/users/" +  userId + "/" + currentTimeString + " Start_Picture " + currentDateString + ".jpg");
+
+        final StorageReference storageReference = mStorageRef.child("Images/wallImages/" + uploadId + "/" +  currentDateTimeString + ".jpg");
 
         uploadingRunning = storageReference.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>()
         {
@@ -142,7 +142,7 @@ public class StartCleanUpActivity extends AppCompatActivity
                     {
                         Map<String,Object> taskMap = new HashMap<>();
                         String url = uri.toString();
-                        String uploadId = mDatabseRef.push().getKey();
+
                         taskMap.put("name", user.getEmail());
                         taskMap.put("imageUrl", url);
                         taskMap.put("id", uploadId);

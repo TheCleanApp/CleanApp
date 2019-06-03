@@ -16,6 +16,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.matias.cleanapp.Models.ImageModel;
 import com.squareup.picasso.Picasso;
 
@@ -26,9 +28,6 @@ public class AdminImageAdapter extends RecyclerView.Adapter<AdminImageAdapter.Im
     private static final String TAG = "AdminImageAdapter";
     private Context mContext;
     private List<ImageModel> mImageModels;
-    private boolean mProcessLike = false;
-    private DatabaseReference mDatabaseLike;
-    private int value;
     private DatabaseReference mDatabaseRef;
 
 
@@ -36,7 +35,6 @@ public class AdminImageAdapter extends RecyclerView.Adapter<AdminImageAdapter.Im
     {
         mContext = context;
         mImageModels = imageModels;
-
     }
 
     @NonNull
@@ -55,12 +53,18 @@ public class AdminImageAdapter extends RecyclerView.Adapter<AdminImageAdapter.Im
         final ImageModel imageModelCurrent = mImageModels.get(i);
         imageViewHolder.textViewName.setText(imageModelCurrent.getName());
 
+
         // Click on each
         imageViewHolder.removeImageButton.setOnClickListener(new View.OnClickListener()
         {
+
             @Override
             public void onClick(View v)
             {
+                mImageModels.remove(i);
+                notifyItemRemoved(i);
+                notifyItemRangeChanged(i, getItemCount());
+                Log.d(TAG, "onClick: " + imageModelCurrent.getId());
                 mDatabaseRef.child(imageModelCurrent.getId()).addValueEventListener(new ValueEventListener()
                 {
                     @Override
@@ -68,10 +72,8 @@ public class AdminImageAdapter extends RecyclerView.Adapter<AdminImageAdapter.Im
                     {
                         if (dataSnapshot.getValue() != null)
                         {
+                            mImageModels.clear();
                             dataSnapshot.getRef().removeValue();
-                            mImageModels.remove(i);
-                            notifyItemRemoved(i);
-                            notifyItemRangeChanged(i, mImageModels.size());
                         }
                         else
                         {
@@ -86,8 +88,10 @@ public class AdminImageAdapter extends RecyclerView.Adapter<AdminImageAdapter.Im
 
                     }
                 });
+                notifyDataSetChanged();
             }
         });
+
 
         // Loading picture to each
         Picasso.with(mContext)

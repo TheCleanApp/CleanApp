@@ -27,12 +27,13 @@
 
         <Button
             android:id="@+id/removeImageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_gravity="center"
             android:minWidth="40dp"
             android:minHeight="40dp"
-            android:text="Remove Image" />
+            android:background="@drawable/trashicon"
+            android:textColor="#ffffff" />
 
     </LinearLayout>
 
