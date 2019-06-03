@@ -145,6 +145,7 @@ public class StartCleanUpActivity extends AppCompatActivity
                         String uploadId = mDatabseRef.push().getKey();
                         taskMap.put("name", user.getEmail());
                         taskMap.put("imageUrl", url);
+                        taskMap.put("id", uploadId);
                         mDatabseRef.child("CleaningPicture").child(uploadId).updateChildren(taskMap);
                     }
                 });

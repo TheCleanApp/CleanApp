@@ -23,11 +23,14 @@ import java.util.List;
 
 public class AdminImageAdapter extends RecyclerView.Adapter<AdminImageAdapter.ImageViewHolder>
 {
+    private static final String TAG = "AdminImageAdapter";
     private Context mContext;
     private List<ImageModel> mImageModels;
     private boolean mProcessLike = false;
     private DatabaseReference mDatabaseLike;
     private int value;
+    private DatabaseReference mDatabaseRef;
+
 
     public AdminImageAdapter(Context context, List<ImageModel> imageModels)
     {
@@ -45,21 +48,44 @@ public class AdminImageAdapter extends RecyclerView.Adapter<AdminImageAdapter.Im
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ImageViewHolder imageViewHolder, final int i)
+    public void onBindViewHolder(@NonNull final ImageViewHolder imageViewHolder, final int i)
     {
-        mDatabaseLike = FirebaseDatabase.getInstance().getReference().child("Likes");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("CleaningPicture");
         // Setting name on each
         final ImageModel imageModelCurrent = mImageModels.get(i);
         imageViewHolder.textViewName.setText(imageModelCurrent.getName());
 
         // Click on each
-        imageViewHolder.likeButton.setOnClickListener(new View.OnClickListener()
+        imageViewHolder.removeImageButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                Log.d("", "onClick: " + i);
-                // TODO LIKE KNAP FODRES!
+                mDatabaseRef.child(imageModelCurrent.getId()).addValueEventListener(new ValueEventListener()
+                {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                    {
+                        if (dataSnapshot.getValue() != null)
+                        {
+                            dataSnapshot.getRef().removeValue();
+                            mImageModels.remove(i);
+                            notifyItemRemoved(i);
+                            notifyItemRangeChanged(i, mImageModels.size());
+                        }
+                        else
+                        {
+                            Log.d(TAG, "No object found.");
+                        }
+                    }
+
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError)
+                    {
+
+                    }
+                });
             }
         });
 
@@ -82,7 +108,7 @@ public class AdminImageAdapter extends RecyclerView.Adapter<AdminImageAdapter.Im
     {
         public TextView textViewName;
         public ImageView imageView;
-        public Button likeButton;
+        public Button removeImageButton;
 
         public ImageViewHolder(View itemView)
         {
@@ -90,7 +116,8 @@ public class AdminImageAdapter extends RecyclerView.Adapter<AdminImageAdapter.Im
 
             textViewName = itemView.findViewById(R.id.text_view_name);
             imageView = itemView.findViewById(R.id.image_view_upload);
-            likeButton = itemView.findViewById(R.id.likeButton);
+            removeImageButton = itemView.findViewById(R.id.removeImageButton);
         }
     }
+
 }

@@ -4,13 +4,14 @@ public class ImageModel
 {
     private String mName;
     private String mImageUrl;
+    private String mId;
 
     public ImageModel()
     {
 
     }
 
-    public ImageModel(String name, String imageUrl)
+    public ImageModel(String name, String imageUrl, String id)
     {
         if (name.trim().equals(""))
         {
@@ -19,6 +20,7 @@ public class ImageModel
 
         mName = name;
         mImageUrl = imageUrl;
+        mId = id;
     }
 
     public String getName()
@@ -38,5 +40,15 @@ public class ImageModel
     public void setImageUrl(String imageUrl)
     {
         mImageUrl = imageUrl;
+    }
+
+    public String getId()
+    {
+        return mId;
+    }
+
+    public void setId(String mId)
+    {
+        this.mId = mId;
     }
 }

@@ -43,7 +43,7 @@
         <activity
             android:name=".MenuActivity"
             android:label="Menu"
-            android:screenOrientation="portrait"></activity>
+            ></activity>
         <activity
             android:name=".StartCleanUpActivity"
             android:label="Start Clean Up"

@@ -22,22 +22,19 @@ public class MenuActivity extends AppCompatActivity
 {
 
     private static final String TAG = "MenuActivity";
+    private static final String STATE_COUNTER = "counter";
 
-    // Buttons
-    Button signoutButton, startCleanUpButton, profileButton, newsButton, aboutButton, adminButton;
+    Button signoutButton, startCleanUpButton, profileButton, newsButton, aboutButton, adminButton, counterButton;
 
-    // Textviews
-    TextView welcomeTextView;
+    TextView welcomeTextView, counterTextView;
 
-    // Firebase Realtime Database
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference myRef;
-
-    // Firebase auth
     private FirebaseAuth mAuth;
 
-    // Strings
     private String userId;
+
+    private int mCounter;
 
 
     @Override
@@ -46,27 +43,41 @@ public class MenuActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-        // Firebase Realtime database
+
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference();
 
-        // Firebase auth
+
         mAuth = FirebaseAuth.getInstance();
-         // Current User + ID
+
         FirebaseUser user = mAuth.getCurrentUser();
 
         userId = user.getUid();
 
-        // TextViews
         welcomeTextView = findViewById(R.id.welcomeTextView);
+        counterTextView = findViewById(R.id.counterTextView);
 
-        // Buttons
         signoutButton = findViewById(R.id.logoutButton);
         startCleanUpButton = findViewById(R.id.startCleanUpButton);
         profileButton = findViewById(R.id.profileButton);
         newsButton = findViewById(R.id.newsButton);
         aboutButton = findViewById(R.id.aboutButton);
         adminButton = findViewById(R.id.adminButton);
+        counterButton = findViewById(R.id.counterButton);
+
+        // Shows that i handle the state
+
+        if (savedInstanceState != null)
+        {
+            mCounter = savedInstanceState.getInt(STATE_COUNTER, 0);
+            Log.d(TAG, "onCreate: Restoring counter data");
+            toastMessage("Restoring data");
+        }
+
+
+
+
+        counterTextView.setText(Integer.toString(mCounter));
 
         // Checking if the user is Admin or not.
         checkIfUserIsAdmin();
@@ -141,25 +152,29 @@ public class MenuActivity extends AppCompatActivity
             }
             case R.id.adminButton:
             {
-                //admin();
-                openImageActivity();
+                admin();
                 break;
             }
+            case R.id.counterButton:
+            {
+                counter();
+                break;
+            }
+
         }
     }
 
-    private void openImageActivity()
+    private void counter()
     {
-        Intent intent = new Intent(this, AdminActivity.class);
-        startActivity(intent);
+        Log.d(TAG, "counter: clicked");
+        mCounter++;
+        counterTextView.setText(Integer.toString(mCounter));
     }
 
     private void admin()
     {
-        Log.d(TAG, "Admin Button");
-        Intent intent = new Intent(this, TEST.class);
+        Intent intent = new Intent(this, AdminActivity.class);
         startActivity(intent);
-        toastMessage("Admin settings");
     }
 
     private void news()
@@ -198,8 +213,15 @@ public class MenuActivity extends AppCompatActivity
         toastMessage("Signing out");
     }
 
-    private void toastMessage(String message)
-    {
-        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(STATE_COUNTER, mCounter);
     }
+
+    private void toastMessage(String message)
+{
+    Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
+}
 }
