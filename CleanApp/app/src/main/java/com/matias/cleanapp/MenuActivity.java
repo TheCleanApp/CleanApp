@@ -1,8 +1,10 @@
 package com.matias.cleanapp;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -189,6 +191,17 @@ public class MenuActivity extends AppCompatActivity
     private void about()
     {
         Log.d(TAG, "About Button");
+
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                Log.d(TAG, "About Info Showing: ");
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(MenuActivity.this);
+        builder.setMessage("CLEANUP ABOUT TEXT").setNegativeButton("Nice!", dialogClickListener).show();
     }
 
     private void startCleanUp()

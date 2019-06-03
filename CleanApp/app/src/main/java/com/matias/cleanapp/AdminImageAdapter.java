@@ -1,7 +1,9 @@
 package com.matias.cleanapp;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -53,7 +55,6 @@ public class AdminImageAdapter extends RecyclerView.Adapter<AdminImageAdapter.Im
         final ImageModel imageModelCurrent = mImageModels.get(i);
         imageViewHolder.textViewName.setText(imageModelCurrent.getName());
 
-
         // Click on each
         imageViewHolder.removeImageButton.setOnClickListener(new View.OnClickListener()
         {
@@ -101,6 +102,7 @@ public class AdminImageAdapter extends RecyclerView.Adapter<AdminImageAdapter.Im
                 .centerInside()
                 .into(imageViewHolder.imageView);
     }
+    
 
     @Override
     public int getItemCount()
