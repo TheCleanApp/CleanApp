@@ -54,7 +54,7 @@ public class RegisterActivity extends AppCompatActivity
         setContentView(R.layout.activity_register);
 
         PD = new ProgressDialog(this);
-        PD.setMessage("Loading...");
+        PD.setMessage(getString(R.string.Loading));
         PD.setCancelable(true);
         PD.setCanceledOnTouchOutside(false);
 
@@ -101,7 +101,7 @@ public class RegisterActivity extends AppCompatActivity
                 {
                     if (!task.isSuccessful())
                     {
-                        toastMessage("Failed to register, please contact administator: 'Matias_gramkow@hotmail.com'");
+                        toastMessage(getString(R.string.contactAdminRegisterFailure));
                     }
                     else
                     {
@@ -112,14 +112,11 @@ public class RegisterActivity extends AppCompatActivity
                         FirebaseUser user = mAuth.getCurrentUser();
                         String userID = user.getUid();
 
-                        // TODO: 21-05-2019 AUTO INCREMENT ET CUSTOM ID: https://www.youtube.com/watch?v=r-g2R_COMqo
-
                         Map<String,Object> taskMap = new HashMap<>();
                         taskMap.put("email", email);
                         taskMap.put("isAdmin", false);
                         taskMap.put("firstName", "");
                         taskMap.put("lastName", "");
-                        taskMap.put("cleaningPoints", 0);
                         myRef.child("users/").child(userID).updateChildren(taskMap);
                         finish();
                     }
@@ -129,7 +126,7 @@ public class RegisterActivity extends AppCompatActivity
         }
         else
         {
-            Toast.makeText(this,"All fields must be filled", Toast.LENGTH_SHORT).show();
+            toastMessage(getString(R.string.Allfieldsmustbefilled));
         }
     }
 

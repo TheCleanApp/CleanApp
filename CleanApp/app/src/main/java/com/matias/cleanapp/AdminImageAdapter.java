@@ -50,7 +50,7 @@ public class AdminImageAdapter extends RecyclerView.Adapter<AdminImageAdapter.Im
     @Override
     public void onBindViewHolder(@NonNull final ImageViewHolder imageViewHolder, final int i)
     {
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("CleaningPicture");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference(mContext.getResources().getString(R.string.CleaningPicture));
         // Setting name on each
         final ImageModel imageModelCurrent = mImageModels.get(i);
         imageViewHolder.textViewName.setText(imageModelCurrent.getName());
@@ -65,7 +65,6 @@ public class AdminImageAdapter extends RecyclerView.Adapter<AdminImageAdapter.Im
                 mImageModels.remove(i);
                 notifyItemRemoved(i);
                 notifyItemRangeChanged(i, getItemCount());
-                Log.d(TAG, "onClick: " + imageModelCurrent.getId());
                 mDatabaseRef.child(imageModelCurrent.getId()).addValueEventListener(new ValueEventListener()
                 {
                     @Override
@@ -78,7 +77,7 @@ public class AdminImageAdapter extends RecyclerView.Adapter<AdminImageAdapter.Im
                         }
                         else
                         {
-                            Log.d(TAG, "No object found.");
+                            Log.d(TAG, mContext.getResources().getString(R.string.nof));
                         }
                     }
 

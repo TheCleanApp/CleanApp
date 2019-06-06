@@ -1,3 +1,118 @@
 <resources>
     <string name="app_name">CleanApp</string>
+
+    <!-- Activties -->
+
+        <!-- AdminActivity -->
+        <string name="CleaningPicture">CleaningPicture</string>
+
+        <!-- AdminImageAdapter -->
+        <string name="nof">No object found</string>
+
+        <!-- LoginActivity -->
+        <string name="Welcome">Welcome&#160;</string>
+        <string name="Haveacleanday">&#160;Have a clean day</string>
+        <string name="NotLoggedin">Not Logged in</string>
+
+        <string name="WrongemailorpasswordPleaseregisterortryagain">Wrong email or password. Please register or try again</string>
+        <string name="PleasefillboththeEmailandPasswordfield">Please fill both the Email and Password field</string>
+
+        <!-- MenuActivity -->
+        <string name="Restoringdata">Restoring data</string>
+        <string name="users">users</string>
+        <string name="isAdmin">is Admin</string>
+        <string name="YourProfile">Your Profile</string>
+
+        <string name="CLEANUPABOUTTEXT">Hey Friends, Readers and Cleaners. The Cleanup Crew er et onlinebaseret fællesskab, som har til mål at rydde op i verdenen for plastik. Præmissen ved Cleanapp er at du starter “Cleanup”, Tager et billede af dit område, går igang med at “Cleane”. Når du så er færdig med din “Cleanup”, trykker du på stop. Din aktivitet uploades derefter til en news wall, hvor andre Cleaners kan følge med. Her kan de også synes godt om din aktivitet. Du får selvfølgelig ikke kun synes godt om, god samvittighed og en rigtig glad moder jord til følge. Efter din “Cleanup” får du point på din aktivitet. Disse “Cleaningpoints” bliver brugt engang om måneden på at vinde vores månedlige konkurrence, hvor der er merchandise at vinde. Derudover kommer de 10 “Cleaners” med flest point, op på vores “Cleaning board”, som er et Leaderboard for de bedste cleaners. I vores “shop” kan du købe merchandise, som støtter mange forskellige organisationer som har til formål at “Cleane” vores jord. Vi har forskellige fede merchandise clothing, som alt er lavet i bæredygtigt materiale. Hvor ca. 75% af prisen går til de forskellige organisationer. De sidste 25% går til produktionsomkostninger og transport. Så skynd dig ind og start din “Cleanapp”, og skaf dig nogle “Cleaningpoints”. Køb noget af vores merchandise og støt, de mange forskellige organisationer der støtter vores planet.</string>
+        <string name="Nice">Nice</string>
+        <string name="StartCleanUp">Start CleanUp</string>
+        <string name="Signingout">Signing out</string>
+
+        <!-- ProfileActivity -->
+        <string name="LoadingProfile">Loading Profile</string>
+        <string name="Images">Loading Images</string>
+        <string name="bmp">bmp</string>
+        <string name="firstName">firstName</string>
+        <string name="lastName">lastName</string>
+        <string name="email">email</string>
+        <string name="UpdateFirstName">Update First Name</string>
+        <string name="UpdateLastName">Update Last Name</string>
+        <string name="UpdateEmail">Update E-mail</string>
+        <string name="UpdatingProfile">Updating Profile</string>
+        <string name="SelectPicture">Select Picture</string>
+        <string name="Uploadingpicture">Uploading picture</string>
+        <string name="Uploaded">Uploaded</string>
+
+        <string name="contactAdminImageFailure">Failed to choose image. Please Try again or contact admin: Matias_gramkow@hotmail.com</string>
+        <string name="UpdatingProfilePicture">Updating Profile Picture&#160;</string>
+
+        <!-- RegisterActivity -->
+        <string name="Loading">Loading…</string>
+
+        <string name="contactAdminRegisterFailure">Failed to register, please contact administator: Matias_gramkow@hotmail.com…</string>
+        <string name="Allfieldsmustbefilled">All fields must be filled…</string>
+
+        <!-- StartCleanUpActivity -->
+        <string name="name">name</string>
+        <string name="imageUrl">imageUrl</string>
+        <string name="id">id</string>
+
+        <string name="ProfileUpdated">Profile Updated</string>
+        <string name="UploadedWithSpace">Uploaded&#160;</string>
+        <string name="SomethingwentwrongwiththeImageModel">Something went wrong with the ImageModel. Please try again or contact Matias_gramkow@hotmail.com</string>
+        <string name="ImageModelInProgresspleasewait">ImageModel In Progress, please wait…</string>
+
+
+        <!-- UpdateProfileActivity -->
+
+    <!-- Layouts -->
+        <!-- activity_images -->
+
+        <!-- activity_login -->
+        <string name="Email">Email</string>
+        <string name="CleanAppLogin">CleanApp Login</string>
+        <string name="Password">Password</string>
+        <string name="Login">Login</string>
+        <string name="Registerhere">Register here</string>
+
+        <!-- activity_menu -->
+        <string name="Logout">Logout</string>
+        <string name="WelcometoCleanAppmenu">Welcome to CleanApps menu</string>
+        <string name="StartTheCleanUp">Start Clean Up</string>
+        <string name="Profile">Profile</string>
+        <string name="About">About</string>
+        <string name="Admin">Admin</string>
+
+
+        <!-- activity_profile -->
+        <string name="YourFirstName">Your First Name</string>
+        <string name="YourLastName">Your Last Name</string>
+        <string name="YourEmail">Your Email</string>
+        <string name="ChangePassword">Change Password</string>
+        <string name="UpdateProfile">Update Profile</string>
+        <string name="ChooseProfilePicture">Choose Profile Picture</string>
+        <string name="ProfileInformation">Profile Information</string>
+
+
+        <!-- activity_register -->
+        <string name="EmailRegister">E-mail</string>
+        <string name="PasswordRegister">Password</string>
+        <string name="Register">Register</string>
+
+        <string name="RegisterandLogin">Register and Login</string>
+
+        <!-- activity_startcleanup -->
+        <string name="ChoosePicture">Choose Picture</string>
+        <string name="UploadPicture">Upload Picture</string>
+
+
+        <!-- activity_updateprofile -->
+        <string name="FirstName">First Name</string>
+        <string name="LastName">Last Name</string>
+        <string name="Update">Update</string>
+
+        <string name="UpdateProfileCredentials">Update Profile Credentials</string>
+
+        <!-- activity_item -->
+        <string name="Name">Name</string>
 </resources>

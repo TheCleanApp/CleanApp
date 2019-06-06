@@ -71,8 +71,7 @@ public class MenuActivity extends AppCompatActivity
         if (savedInstanceState != null)
         {
             mCounter = savedInstanceState.getInt(STATE_COUNTER, 0);
-            Log.d(TAG, "onCreate: Restoring counter data");
-            toastMessage("Restoring data");
+            toastMessage(getString(R.string.Restoringdata));
         }
 
 
@@ -96,7 +95,6 @@ public class MenuActivity extends AppCompatActivity
                 {
                     boolean isAdmin = (boolean) dataSnapshot.child("users").child(userId).child("isAdmin").getValue();
 
-                    Log.d(TAG, "IsAdmin?: " + isAdmin);
                     if (isAdmin)
                     {
                         adminButton.setVisibility(View.VISIBLE);
@@ -108,7 +106,6 @@ public class MenuActivity extends AppCompatActivity
                 }
                 catch (NullPointerException nullpointer)
                 {
-                    Log.d(TAG, "onDataChange: " + nullpointer);
                     logOut();
                 }
             }
@@ -163,7 +160,6 @@ public class MenuActivity extends AppCompatActivity
 
     private void counter()
     {
-        Log.d(TAG, "counter: clicked");
         mCounter++;
         counterTextView.setText(Integer.toString(mCounter));
     }
@@ -174,17 +170,12 @@ public class MenuActivity extends AppCompatActivity
         startActivity(intent);
     }
 
-    private void news()
-    {
-        Log.d(TAG, "News Button");
-    }
 
     private void profile()
     {
-        Log.d(TAG, "Profile Button");
         Intent intent = new Intent(this,ProfileActivity.class);
         startActivity(intent);
-        toastMessage("Your Profile");
+        toastMessage(getString(R.string.YourProfile));
 
     }
 
@@ -192,44 +183,44 @@ public class MenuActivity extends AppCompatActivity
     {
         Log.d(TAG, "About Button");
 
-        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener()
+        {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(DialogInterface dialog, int which)
+            {
 
-                Log.d(TAG, "About Info Showing: ");
             }
         };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(MenuActivity.this);
-        builder.setMessage("CLEANUP ABOUT TEXT").setNegativeButton("Nice!", dialogClickListener).show();
+        builder.setMessage(getString(R.string.CLEANUPABOUTTEXT)).setNegativeButton(getString(R.string.Nice), dialogClickListener).show();
     }
 
     private void startCleanUp()
     {
-        Log.d(TAG, "startCleanUp Button");
         Intent intent = new Intent(this,StartCleanUpActivity.class);
         startActivity(intent);
-        toastMessage("Start CleanUp");
+        toastMessage(getString(R.string.StartCleanUp));
     }
 
     private void logOut()
     {
-        Log.d(TAG, "Log Out Button");
         mAuth.signOut();
         Intent intent = new Intent(this,LoginActivity.class);
         startActivity(intent);
-        toastMessage("Signing out");
+        toastMessage(getString(R.string.Signingout));
     }
 
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(Bundle outState)
+    {
         super.onSaveInstanceState(outState);
         outState.putInt(STATE_COUNTER, mCounter);
     }
 
     private void toastMessage(String message)
-{
+    {
     Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
-}
+    }
 }

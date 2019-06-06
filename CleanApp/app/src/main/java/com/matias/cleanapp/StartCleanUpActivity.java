@@ -94,7 +94,6 @@ public class StartCleanUpActivity extends AppCompatActivity
         {
             case R.id.chooseImageFromPhoneButton:
             {
-                Log.d(TAG, "buttonChoice: chooseImageFromPhoneButton CLICKED");
                 chooseImageFromPhone();
                 break;
             }
@@ -103,12 +102,11 @@ public class StartCleanUpActivity extends AppCompatActivity
                 // Does so the user only can click on upload once.
                 if (uploadingRunning != null && uploadingRunning.isInProgress())
                 {
-                    toastMessage("ImageModel In Progress, please wait");
+                    toastMessage(getString(R.string.ImageModelInProgresspleasewait));
                     break;
                 }
                 else
                 {
-                    Log.d(TAG, "buttonChoice: ImageModel Starting Picture Button Clicked");
                     uploadStartImage();
                     break;
                 }
@@ -119,7 +117,7 @@ public class StartCleanUpActivity extends AppCompatActivity
     private void uploadStartImage()
     {
         uploadStartImageButton.setEnabled(false);
-        mProgressDialog.setMessage("Uploading picture...");
+        mProgressDialog.setMessage(getString(R.string.Uploadingpicture));
         mProgressDialog.show();
 
         // get the current user
@@ -143,15 +141,14 @@ public class StartCleanUpActivity extends AppCompatActivity
                         Map<String,Object> taskMap = new HashMap<>();
                         String url = uri.toString();
 
-                        taskMap.put("name", user.getEmail());
-                        taskMap.put("imageUrl", url);
-                        taskMap.put("id", uploadId);
-                        mDatabseRef.child("CleaningPicture").child(uploadId).updateChildren(taskMap);
+                        taskMap.put(getString(R.string.name), user.getEmail());
+                        taskMap.put(getString(R.string.imageUrl), url);
+                        taskMap.put(getString(R.string.id), uploadId);
+                        mDatabseRef.child(getString(R.string.CleaningPicture)).child(uploadId).updateChildren(taskMap);
                     }
                 });
-                Log.d(TAG, "onSuccessasdasdasd: " + taskSnapshot.getUploadSessionUri());
                 mProgressDialog.dismiss();
-                toastMessage("Uploaded");
+                toastMessage(getString(R.string.Uploaded));
                 Intent intent = new Intent(StartCleanUpActivity.this, MenuActivity.class);
                 startActivity(intent);
                 uploadStartImageButton.setEnabled(true);
@@ -162,8 +159,7 @@ public class StartCleanUpActivity extends AppCompatActivity
             public void onFailure(@NonNull Exception e)
             {
                 mProgressDialog.dismiss();
-                toastMessage("Something went wrong with the ImageModel.");
-                toastMessage("Please try again or contact 'Matias_gramkow@hotmail.com'");
+                toastMessage(getString(R.string.SomethingwentwrongwiththeImageModel));
                 uploadStartImageButton.setEnabled(true);
             }
         }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>()
@@ -173,7 +169,7 @@ public class StartCleanUpActivity extends AppCompatActivity
             {
                 double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
                         .getTotalByteCount());
-                mProgressDialog.setMessage("Uploaded " + (int) progress+"%");
+                mProgressDialog.setMessage(getString(R.string.UploadedWithSpace) + (int) progress+"%");
             }
         });
     }
@@ -183,7 +179,7 @@ public class StartCleanUpActivity extends AppCompatActivity
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.SelectPicture)), PICK_IMAGE_REQUEST);
     }
 
     @Override

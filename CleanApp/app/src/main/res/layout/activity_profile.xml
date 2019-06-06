@@ -26,7 +26,7 @@
                 android:id="@+id/profileFirstNameTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Your First Name"
+                android:text="@string/YourFirstName"
                 tools:layout_editor_absoluteX="43dp"
                 tools:layout_editor_absoluteY="324dp" />
 
@@ -34,7 +34,7 @@
                 android:id="@+id/profileLastNameTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Your Last Name"
+                android:text="@string/YourLastName"
                 tools:layout_editor_absoluteX="43dp"
                 tools:layout_editor_absoluteY="357dp" />
 
@@ -42,24 +42,13 @@
                 android:id="@+id/profileEmailTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Your Email"
+                android:text="@string/YourEmail"
                 tools:layout_editor_absoluteX="43dp"
                 tools:layout_editor_absoluteY="405dp" />
         </LinearLayout>
 
     </RelativeLayout>
 
-
-    <TextView
-        android:id="@+id/profilePointTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="43dp"
-        android:layout_marginRight="43dp"
-        android:text="0 Point"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
 
     <Button
         android:id="@+id/changePasswordButton"
@@ -69,7 +58,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginBottom="16dp"
         android:onClick="profileButtonChoice"
-        android:text="Change Password"
+        android:text="@string/ChangePassword"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -81,7 +70,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
         android:onClick="profileButtonChoice"
-        android:text="Update Profile"
+        android:text="@string/UpdateProfile"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -103,7 +92,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:onClick="profileButtonChoice"
-        android:text="Choose Profile Picture"
+        android:text="@string/ChooseProfilePicture"
         android:textSize="10sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profilePictureImageView" />
@@ -111,12 +100,12 @@
     <TextView
         android:id="@+id/userInformationTextView"
         android:layout_width="131.5dp"
-        android:gravity="center"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="15dp"
         android:layout_marginRight="15dp"
-        android:text="Profile Information"
+        android:gravity="center"
+        android:text="@string/ProfileInformation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

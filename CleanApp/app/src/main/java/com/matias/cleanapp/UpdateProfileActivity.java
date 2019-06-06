@@ -69,7 +69,7 @@ public class UpdateProfileActivity extends AppCompatActivity
                         String lastName = updateLastNameEditText.getText().toString();
                         myRef.child("users").child(userId).child("firstName").setValue(firstName);
                         myRef.child("users").child(userId).child("lastName").setValue(lastName);
-                        toastMessage("Profile Updated");
+                        toastMessage(getString(R.string.ProfileUpdated));
                         finish();
                     }
 

@@ -25,7 +25,7 @@
         android:layout_marginBottom="17dp"
         android:background="@drawable/cleanbuttons"
         android:onClick="buttonChoice"
-        android:text="Choose Picture"
+        android:text="@string/ChoosePicture"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -38,7 +38,7 @@
         android:layout_marginBottom="17dp"
         android:background="@drawable/cleanbuttons"
         android:onClick="buttonChoice"
-        android:text="Upload Picture"
+        android:text="@string/UploadPicture"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

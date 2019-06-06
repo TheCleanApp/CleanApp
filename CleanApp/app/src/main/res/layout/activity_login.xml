@@ -10,20 +10,20 @@
     <EditText
         android:id="@+id/loginEmailEditText"
         android:layout_width="wrap_content"
-        android:gravity="center"
         android:layout_height="50dp"
-        android:background="@drawable/smoothedittext"
         android:layout_marginStart="99dp"
         android:layout_marginLeft="99dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="99dp"
         android:layout_marginRight="99dp"
+        android:background="@drawable/smoothedittext"
         android:ems="10"
-        android:hint="Email"
+        android:gravity="center"
+        android:hint="@string/EmailRegister"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginTextView"/>
+        app:layout_constraintTop_toBottomOf="@+id/loginTextView" />
 
     <TextView
         android:id="@+id/loginTextView"
@@ -34,29 +34,29 @@
         android:layout_marginTop="30dp"
         android:layout_marginEnd="169dp"
         android:layout_marginRight="169dp"
-        android:text="CleanApp Login"
+        android:text="@string/CleanAppLogin"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/loginPasswordEditText"
         android:layout_width="wrap_content"
-        android:gravity="center"
         android:layout_height="50dp"
-        android:background="@drawable/smoothedittext"
         android:layout_marginStart="99dp"
         android:layout_marginLeft="99dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="99dp"
         android:layout_marginRight="99dp"
+        android:background="@drawable/smoothedittext"
         android:ems="10"
-        android:hint="Password"
+        android:gravity="center"
+        android:hint="@string/Password"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginEmailEditText"/>
+        app:layout_constraintTop_toBottomOf="@+id/loginEmailEditText" />
 
     <Button
         android:id="@+id/loginButton"
@@ -67,12 +67,12 @@
         android:layout_marginTop="30dp"
         android:layout_marginEnd="162dp"
         android:layout_marginRight="162dp"
-        android:text="Login"
-        android:textColor="#ffffff"
         android:background="@drawable/cleanbuttons"
+        android:text="@string/Login"
+        android:textColor="#ffffff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginPasswordEditText"/>
+        app:layout_constraintTop_toBottomOf="@+id/loginPasswordEditText" />
 
     <TextView
         android:id="@+id/registerTextView"
@@ -83,8 +83,8 @@
         android:layout_marginTop="12dp"
         android:layout_marginEnd="164dp"
         android:layout_marginRight="164dp"
-        android:text="Register here"
+        android:text="@string/Registerhere"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginButton"/>
+        app:layout_constraintTop_toBottomOf="@+id/loginButton" />
 </android.support.constraint.ConstraintLayout>

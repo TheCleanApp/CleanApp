@@ -42,7 +42,7 @@ public class ProfileActivity extends AppCompatActivity
 
     private static final String TAG = "ProfileActivity";
     // TextViews
-    TextView profileFirstNameTextView, profileLastNameTextView, profileEmailTextView, profilePointTextView;
+    TextView profileFirstNameTextView, profileLastNameTextView, profileEmailTextView;
 
     // Buttons
     Button chooseProfilePictureButton, changePasswordButton, updateProfileButton;
@@ -82,7 +82,6 @@ public class ProfileActivity extends AppCompatActivity
         profileFirstNameTextView = findViewById(R.id.profileFirstNameTextView);
         profileLastNameTextView = findViewById(R.id.profileLastNameTextView);
         profileEmailTextView = findViewById(R.id.profileEmailTextView);
-        profilePointTextView = findViewById(R.id.profilePointTextView);
         chooseProfilePictureButton = findViewById(R.id.chooseProfilePictureButton);
         changePasswordButton = findViewById(R.id.changePasswordButton);
         updateProfileButton = findViewById(R.id.updateProfileButton);
@@ -112,18 +111,17 @@ public class ProfileActivity extends AppCompatActivity
 
     private void getProfilePicture()
     {
-        mProgressDialog.setMessage("Loading Profile");
+        mProgressDialog.setMessage(getString(R.string.LoadingProfile));
         mProgressDialog.show();
         StorageReference storageReference = mStorageRef.child("Images/profile_pictures/" +  userId + "/" + "Profile Picture.jpg");
         try
         {
-            final File localFile = File.createTempFile("Images", "bmp");
+            final File localFile = File.createTempFile(getString(R.string.Images), getString(R.string.bmp));
             storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>()
             {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot)
                 {
-                    Log.d(TAG, "onSuccess: Getting profile picture SUCCESS");
                     my_image = BitmapFactory.decodeFile(localFile.getAbsolutePath());
                     profilePictureImageView.setImageBitmap(my_image);
                     mProgressDialog.dismiss();
@@ -131,7 +129,6 @@ public class ProfileActivity extends AppCompatActivity
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Log.d(TAG, "onFailure: Failed to get profile Picture");
                     mProgressDialog.dismiss();
                 }
             });
@@ -150,9 +147,9 @@ public class ProfileActivity extends AppCompatActivity
             public void onDataChange(@NonNull DataSnapshot dataSnapshot)
             {
                 // Getting creds from database
-                String firstName = (String) dataSnapshot.child("users").child(userId).child("firstName").getValue();
-                String lastName = (String) dataSnapshot.child("users").child(userId).child("lastName").getValue();
-                String email = (String) dataSnapshot.child("users").child(userId).child("email").getValue();
+                String firstName = (String) dataSnapshot.child(getString(R.string.users)).child(userId).child(getString(R.string.firstName)).getValue();
+                String lastName = (String) dataSnapshot.child(getString(R.string.users)).child(userId).child(getString(R.string.lastName)).getValue();
+                String email = (String) dataSnapshot.child(getString(R.string.users)).child(userId).child(getString(R.string.email)).getValue();
 
                 // Updating views
                 if(!firstName.equals(""))
@@ -161,7 +158,7 @@ public class ProfileActivity extends AppCompatActivity
                 }
                 else
                 {
-                    profileFirstNameTextView.setText("Update First Name");
+                    profileFirstNameTextView.setText(getString(R.string.UpdateFirstName));
                 }
                 if(!lastName.equals(""))
                 {
@@ -169,7 +166,7 @@ public class ProfileActivity extends AppCompatActivity
                 }
                 else
                 {
-                    profileLastNameTextView.setText("Update Last Name");
+                    profileLastNameTextView.setText(getString(R.string.UpdateLastName));
                 }
                 if(!email.equals(""))
                 {
@@ -177,7 +174,7 @@ public class ProfileActivity extends AppCompatActivity
                 }
                 else
                 {
-                    profileEmailTextView.setText("Update E-mail");
+                    profileEmailTextView.setText(getString(R.string.UpdateEmail));
                 }
 
 
@@ -198,19 +195,16 @@ public class ProfileActivity extends AppCompatActivity
         {
             case R.id.chooseProfilePictureButton:
             {
-                Log.d(TAG,"Choose Profile Picture");
                 chooseProfilePicture();
                 break;
             }
             case R.id.changePasswordButton:
             {
-                Log.d(TAG,"Change Password");
                 changePassword();
                 break;
             }
             case R.id.updateProfileButton:
             {
-                Log.d(TAG,"Update Profile");
                 updateProfile();
                 break;
             }
@@ -224,19 +218,17 @@ public class ProfileActivity extends AppCompatActivity
 
     private void updateProfile()
     {
-        Log.d(TAG, "updateProfile");
         Intent intent = new Intent(this,UpdateProfileActivity.class);
         startActivity(intent);
-        toastMessage("Updating Profile");
+        toastMessage(getString(R.string.UpdatingProfile));
     }
 
     private void chooseProfilePicture()
     {
-        Log.d(TAG, "chooseProfilePicture: Choosing picture");
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.SelectPicture)), PICK_IMAGE_REQUEST);
     }
 
     @Override
@@ -249,7 +241,7 @@ public class ProfileActivity extends AppCompatActivity
 
     private void uploadProfilePicture(Uri file)
     {
-        mProgressDialog.setMessage("Uploading picture...");
+        mProgressDialog.setMessage(getString(R.string.Uploadingpicture));
         mProgressDialog.show();
 
         FirebaseUser user = mAuth.getCurrentUser();
@@ -263,7 +255,7 @@ public class ProfileActivity extends AppCompatActivity
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) 
             {
                 mProgressDialog.dismiss();
-                toastMessage("Uploaded");
+                toastMessage(getString(R.string.Uploaded));
                 getProfilePicture();
             }
         }).addOnFailureListener(new OnFailureListener() 
@@ -272,17 +264,16 @@ public class ProfileActivity extends AppCompatActivity
             public void onFailure(@NonNull Exception e) 
             {
                 mProgressDialog.dismiss();
-                toastMessage("Failed to choose picture. Please Try again or contact admin: Matias_gramkow@hotmail.com");
+                toastMessage(getString(R.string.contactAdminImageFailure));
             }
         }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() 
         {
             @Override
             public void onProgress(UploadTask.TaskSnapshot taskSnapshot) 
             {
-                Log.d(TAG, "onProgress: Progress on the ImageModel");
                 double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
                         .getTotalByteCount());
-                mProgressDialog.setMessage("Updating Profile Picture " + (int) progress+"%");
+                mProgressDialog.setMessage(getString(R.string.UpdatingProfilePicture) + (int) progress+"%");
             }
         });
     }

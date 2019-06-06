@@ -23,6 +23,7 @@ public class LoginActivity extends AppCompatActivity
 {
     private static final String TAG = "LoginActivity";
 
+
     private EditText loginEmail, loginPassword;
     private Button loginButton;
     private TextView loginTextView, registerTextView;
@@ -69,15 +70,14 @@ public class LoginActivity extends AppCompatActivity
                 if (user != null)
                 {
                     // User is signed in
-                    Log.d(TAG, "onAuthStateChange:signed in:" + user.getUid());
-                    toastMessage("Welcome " + user.getEmail() + ". Have a clean day");
+                    //toastMessage("Welcome " + user.getEmail() + ". Have a clean day");
+                    toastMessage(getString(R.string.Welcome) + user.getEmail() + getString(R.string.Haveacleanday));
                     Login();
                 }
                 else
                 {
                     // User is signed out
-                    Log.d(TAG,"onAuthStateChange:signed out");
-                    toastMessage("Not Logged in.");
+                    toastMessage(getString(R.string.NotLoggedin));
                 }
             }
         };
@@ -95,13 +95,13 @@ public class LoginActivity extends AppCompatActivity
                         @Override
                         public void onFailure(@NonNull Exception e)
                         {
-                            toastMessage("Wrong email or password. Please register or try again");
+                            toastMessage(getString(R.string.WrongemailorpasswordPleaseregisterortryagain));
                         }
                     });
                 }
                 else
                 {
-                    toastMessage("Please fill both the Email and Password field.");
+                    toastMessage(getString(R.string.PleasefillboththeEmailandPasswordfield));
                 }
             }
         });

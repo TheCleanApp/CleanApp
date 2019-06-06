@@ -46,7 +46,7 @@ public class AdminActivity extends AppCompatActivity
 
         mImageModels = new ArrayList<>();
 
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("CleaningPicture");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference(getString(R.string.CleaningPicture));
         mRecyclerView.removeAllViews();
 
 
