@@ -45,7 +45,7 @@ public class ProfileActivity extends AppCompatActivity
     TextView profileFirstNameTextView, profileLastNameTextView, profileEmailTextView;
 
     // Buttons
-    Button chooseProfilePictureButton, changePasswordButton, updateProfileButton;
+    Button chooseProfilePictureButton, updateProfileButton;
 
     // ImageViews
     ImageView profilePictureImageView;
@@ -83,7 +83,6 @@ public class ProfileActivity extends AppCompatActivity
         profileLastNameTextView = findViewById(R.id.profileLastNameTextView);
         profileEmailTextView = findViewById(R.id.profileEmailTextView);
         chooseProfilePictureButton = findViewById(R.id.chooseProfilePictureButton);
-        changePasswordButton = findViewById(R.id.changePasswordButton);
         updateProfileButton = findViewById(R.id.updateProfileButton);
         profilePictureImageView = findViewById(R.id.profilePictureImageView);
 
@@ -198,22 +197,12 @@ public class ProfileActivity extends AppCompatActivity
                 chooseProfilePicture();
                 break;
             }
-            case R.id.changePasswordButton:
-            {
-                changePassword();
-                break;
-            }
             case R.id.updateProfileButton:
             {
                 updateProfile();
                 break;
             }
         }
-    }
-
-    private void changePassword()
-    {
-        // TODO: 20-05-2019
     }
 
     private void updateProfile()

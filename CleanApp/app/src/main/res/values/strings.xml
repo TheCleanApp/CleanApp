@@ -115,4 +115,12 @@
 
         <!-- activity_item -->
         <string name="Name">Name</string>
+
+        <!-- activity_forgotpassword -->
+        <string name="SendNewPassword">Send New Password</string>
+        <string name="EnteryourEmailbelowtogetyournewpassword">Enter your E-mail below to get your new password</string>
+        <string name="PleaseenteranEmail">Please enter an E-mail</string>
+        <string name="ErrorOccurred">Error Occurred</string>
+        <string name="PleasecheckyourEmailifyouwanttoresetyourpassword">Please check your E-mail, if you want to reset your password</string>
+
 </resources>

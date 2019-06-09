@@ -34,6 +34,8 @@ public class MenuActivity extends AppCompatActivity
     private DatabaseReference myRef;
     private FirebaseAuth mAuth;
 
+    private boolean welcome = false;
+
     private String userId;
 
     private int mCounter;
@@ -66,13 +68,14 @@ public class MenuActivity extends AppCompatActivity
         adminButton = findViewById(R.id.adminButton);
         counterButton = findViewById(R.id.counterButton);
 
-        // Shows that i handle the state
 
+        // Shows that i handle the state
         if (savedInstanceState != null)
         {
             mCounter = savedInstanceState.getInt(STATE_COUNTER, 0);
             toastMessage(getString(R.string.Restoringdata));
         }
+
 
 
 

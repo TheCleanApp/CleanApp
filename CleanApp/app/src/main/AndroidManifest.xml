@@ -80,6 +80,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MenuActivity"></meta-data>
         </activity>
+        <activity
+            android:name=".ForgotPasswordActivity"
+            android:label="Forgot Password"
+            android:parentActivityName=".LoginActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".LoginActivity"></meta-data>
+        </activity>
+
     </application>
 
 </manifest>
